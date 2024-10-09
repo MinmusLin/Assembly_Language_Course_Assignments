@@ -21,7 +21,7 @@ A collection of my assembly language course assignments.
 * [Assignment 2 ASCII](Assignment_2_ASCII)
 课程作业 2 ASCII
 
-* [Assignment 3 ASCII](Assignment_3_SUM)
+* [Assignment 3 SUM](Assignment_3_SUM)
 课程作业 3 SUM
 
 ## 免责声明
