@@ -113,6 +113,23 @@ END MAIN                      ; 程序结束
 
 ## 通过 C 语言实现并查看反汇编代码
 
+C 语言代码：
+
+```c
+#include <stdio.h>
+
+int main() {
+    for (int i = 0; i < 26; i++) {
+        printf("%c", 'a' + i);
+        if ((i + 1) % 13 == 0) {
+            printf("\n");
+        }
+    }
+
+    return 0;
+}
+```
+
 部分反汇编代码：
 
 ![](assets/2024-09-25_23-53-15.png)
