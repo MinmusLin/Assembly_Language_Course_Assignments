@@ -22,7 +22,10 @@ A collection of my assembly language course assignments.
 课程作业 2 ASCII
 
 * [Assignment 3 SUM](Assignment_3_SUM)
-课程作业 3 SUM
+课程作业 3 求和
+
+* [Assignment 4 Multiplication Table](Assignment_4_Multiplication_Table)
+课程作业 4 乘法表
 
 ## 免责声明
 
@@ -32,4 +35,4 @@ The code and materials contained in this repository are intended for personal le
 
 ## 文档更新日期
 
-2024年10月9日
+2024年10月17日
