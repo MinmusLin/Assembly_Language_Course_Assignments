@@ -1,0 +1,81 @@
+.MODEL SMALL
+.STACK 100h
+
+.DATA
+    RES DB 3 DUP(0)
+    PR DB 00H, '*', 00H, '=', 2 DUP(2), '  ', '$'
+    LINE DB 0DH, 0AH, '$'
+    IPP DW 0000H
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+    MOV CX, 9
+
+LOOP1:
+    MOV DH, 0AH
+    SUB DH, CL
+    MOV DL, 01H
+    MOV AL, DH
+    AND AX, 00FFH
+
+LOOP2:
+    CMP DL, DH
+    JA NEXT
+    PUSH DX
+    PUSH CX
+    PUSH AX
+    PUSH DX
+    MOV AL, DH
+    MUL DL
+    PUSH AX
+    CALL PRINT_LINE
+    POP CX
+    POP DX
+    INC DL
+    JMP LOOP2
+
+NEXT:
+    MOV DX, OFFSET LINE
+    MOV AH, 09H
+    INT 21H
+    LOOP LOOP1
+    MOV AH, 4CH
+    INT 21H
+
+PRINT_LINE PROC
+    POP IPP
+    POP DX
+    MOV AX, DX
+    MOV BL, 0AH
+    DIV BL
+    CMP AL, 0
+    JZ SKIP_TENS
+    ADD AL, 30H
+    MOV PR+4, AL
+    JMP STORE_ONES
+
+SKIP_TENS:
+    MOV PR+4, ' '
+
+STORE_ONES:
+    ADD AH, 30H
+    MOV PR+5, AH
+    POP AX
+    AND AL, 0FH
+    ADD AL, 30H
+    MOV PR+2, AL
+    POP AX
+    AND AL, 0FH
+    ADD AL, 30H
+    MOV PR, AL
+    MOV DX, OFFSET PR
+    MOV AH, 09H
+    INT 21H
+    PUSH IPP
+    RET
+
+PRINT_LINE ENDP
+
+END START
