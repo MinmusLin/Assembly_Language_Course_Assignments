@@ -27,6 +27,12 @@ A collection of my assembly language course assignments.
 * [Assignment 4 Multiplication Table](Assignment_4_Multiplication_Table)
 课程作业 4 乘法表
 
+* [Exercise 1 Procedure Call](Exercise_1_Procedure_Call)
+课程练习 1 过程调用
+
+* [Exercise 2 Recursive Call](Exercise_2_Recursive_Call)
+课程作业 2 递归调用
+
 ## 免责声明
 
 The code and materials contained in this repository are intended for personal learning and research purposes only and may not be used for any commercial purposes. Other users who download or refer to the content of this repository must strictly adhere to the **principles of academic integrity** and must not use these materials for any form of homework submission or other actions that may violate academic honesty. I am not responsible for any direct or indirect consequences arising from the improper use of the contents of this repository. Please ensure that your actions comply with the regulations of your school or institution, as well as applicable laws and regulations, before using this content. If you have any questions, please contact me via [email](mailto:minmuslin@outlook.com).
@@ -35,4 +41,4 @@ The code and materials contained in this repository are intended for personal le
 
 ## 文档更新日期
 
-2024年10月17日
+2024年11月6日
