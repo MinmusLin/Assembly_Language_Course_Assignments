@@ -1,0 +1,140 @@
+.MODEL SMALL
+.STACK 100h
+
+.DATA
+    Hello DB '                                  Hello world!'
+
+.CODE
+START:
+    MOV AX, @DATA
+    MOV DS, AX
+    MOV AX, 0B800H
+    MOV ES, AX
+
+    CALL CLEAR_SCREEN
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 6
+    MOV CX, 46
+    MOV BL, 1
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 7
+    MOV CX, 46
+    MOV BL, 2
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 8
+    MOV CX, 46
+    MOV BL, 3
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 9
+    MOV CX, 46
+    MOV BL, 4
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 10
+    MOV CX, 46
+    MOV BL, 5
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 11
+    MOV CX, 46
+    MOV BL, 6
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 12
+    MOV CX, 46
+    MOV BL, 7
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 13
+    MOV CX, 46
+    MOV BL, 8
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 14
+    MOV CX, 46
+    MOV BL, 9
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 15
+    MOV CX, 46
+    MOV BL, 10
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 16
+    MOV CX, 46
+    MOV BL, 11
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 17
+    MOV CX, 46
+    MOV BL, 12
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 18
+    MOV CX, 46
+    MOV BL, 13
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 19
+    MOV CX, 46
+    MOV BL, 14
+    CALL DISPLAY_STRING
+
+    MOV SI, OFFSET Hello
+    MOV DI, 160 * 20
+    MOV CX, 46
+    MOV BL, 15
+    CALL DISPLAY_STRING
+
+    MOV AX, 4C00h
+    INT 21h
+
+CLEAR_SCREEN PROC
+    MOV DI, 0
+    MOV CX, 4600
+    MOV AL, ' '
+    MOV AH, 0
+    CLD
+
+CLEAR_LOOP:
+    STOSW
+    LOOP CLEAR_LOOP
+    RET
+
+CLEAR_SCREEN ENDP
+
+DISPLAY_STRING PROC
+    PUSH AX
+    PUSH BX
+
+DISPLAY_LOOP:
+    MOV AL, [SI]
+    MOV ES:[DI], AL
+    MOV ES:[DI+1], BL
+    INC SI
+    ADD DI, 2
+    LOOP DISPLAY_LOOP
+    POP BX
+    POP AX
+    RET
+
+DISPLAY_STRING ENDP
+
+END START
