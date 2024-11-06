@@ -31,7 +31,10 @@ A collection of my assembly language course assignments.
 课程练习 1 过程调用
 
 * [Exercise 2 Recursive Call](Exercise_2_Recursive_Call)
-课程作业 2 递归调用
+课程练习 2 递归调用
+
+* [Exercise 3 String Operations](Exercise_3_String_Operations)
+课程练习 3 字符串操作
 
 ## 免责声明
 
