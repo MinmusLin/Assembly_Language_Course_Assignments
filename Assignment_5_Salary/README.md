@@ -9,12 +9,12 @@
 ```
 MASM MAIN.ASM
 MASM UTILS.ASM
-LINK MAIN.OBJ UTILS.ASM
+LINK MAIN.OBJ UTILS.OBJ
 ```
 
 * `MASM MAIN.ASM` 使用 MASM（Microsoft Macro Assembler）编译 `MAIN.ASM`，生成目标文件 `MAIN.OBJ`。此目标文件包含主程序代码。
 * `MASM UTILS.ASM` 将 `UTILS.ASM` 编译为 `UTILS.OBJ`，其中包含辅助函数如 `DISPLAY_NUMBER`、`DISPLAY_TAB` 等。
-* `LINK MAIN.OBJ UTILS.ASM` 命令将 `MAIN.OBJ` 和 `UTILS.OBJ` 链接在一起，生成最终的可执行文件。此步骤确保主程序能够调用工具模块中的外部函数。
+* `LINK MAIN.OBJ UTILS.OBJ` 命令将 `MAIN.OBJ` 和 `UTILS.OBJ` 链接在一起，生成最终的可执行文件。此步骤确保主程序能够调用工具模块中的外部函数。
 
 在汇编文件中使用外部函数时，需要明确声明：
 
