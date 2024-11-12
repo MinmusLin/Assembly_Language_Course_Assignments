@@ -27,6 +27,9 @@ A collection of my assembly language course assignments.
 * [Assignment 4 Multiplication Table](Assignment_4_Multiplication_Table)
 课程作业 4 乘法表
 
+* [Assignment 5 Salary](Assignment_5_Salary)
+课程作业 5 工资计算
+
 * [Exercise 1 Procedure Call](Exercise_1_Procedure_Call)
 课程练习 1 过程调用
 
@@ -47,4 +50,4 @@ The code and materials contained in this repository are intended for personal le
 
 ## 文档更新日期
 
-2024年11月6日
+2024年11月12日
