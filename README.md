@@ -33,6 +33,9 @@ MASM 汇编工具
 * [Assignment 5 Salary](Assignment_5_Salary)
 课程作业 5 工资计算
 
+* [Assignment 6 Stack Analysis](Assignment_6_Stack_Analysis)
+课程作业 6 栈分析
+
 * [Exercise 1 Procedure Call](Exercise_1_Procedure_Call)
 课程练习 1 过程调用
 
@@ -53,4 +56,4 @@ The code and materials contained in this repository are intended for personal le
 
 ## 文档更新日期
 
-2024年11月15日
+2024年11月27日
