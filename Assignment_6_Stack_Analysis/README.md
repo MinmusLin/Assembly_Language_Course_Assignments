@@ -217,7 +217,7 @@ int main() {
 }
 ```
 
-### 反汇编代码
+### MSVC 反汇编代码
 
 在 Visual Studio 中查看 MSVC 生成的反汇编代码，可以使用内置的调试器。在调试模式下编译项目，并启用调试信息。在调试过程中，打开调试窗口，选择 **调试 > Windows > 反汇编（或按 Ctrl+Alt+D）** 来查看反汇编代码。可以单步执行程序（F10 / F11）并观察对应的汇编指令，调试器会显示当前源代码和反汇编代码的对应关系。
 
@@ -283,3 +283,101 @@ int main() {
 00007FF799931877  pop         rbp
 00007FF799931878  ret
 ```
+
+### 反汇编代码分析
+
+#### `inner_fun` 函数的反汇编分析
+
+```
+00007FF799931787  or          byte ptr [rbp+57h],dl                         ; 这个指令并没有实际意义，可能是调试信息
+00007FF79993178A  sub         rsp,0E8h                                      ; 函数入口，调整栈指针，创建栈帧
+00007FF799931791  lea         rbp,[rsp+20h]                                 ; 更新基指针寄存器 rbp，设置新的栈帧
+00007FF799931796  lea         rcx,[__57606C2A_main@cpp (07FF799941000h)]    ; 调用调试工具 __CheckForDebuggerJustMyCode
+00007FF79993179D  call        __CheckForDebuggerJustMyCode (07FF79993135Ch) ; 检查调试器是否存在
+00007FF7999317A2  mov         eax,dword ptr [b]                             ; 将参数 b 的值加载到 eax 寄存器
+00007FF7999317A8  mov         ecx,dword ptr [a]                             ; 将参数 a 的值加载到 ecx 寄存器
+00007FF7999317AE  add         ecx,eax                                       ; 将 a + b 的结果存入 ecx 寄存器
+00007FF7999317B0  mov         eax,ecx                                       ; 将 ecx 的结果赋值给 eax 寄存器（返回值）
+00007FF7999317B2  lea         rsp,[rbp+0C8h]                                ; 恢复栈指针
+00007FF7999317B9  pop         rdi                                           ; 恢复 rdi 寄存器
+00007FF7999317BA  pop         rbp                                           ; 恢复基指针寄存器 rbp
+00007FF7999317BB  ret                                                       ; 返回到调用位置
+```
+
+#### `outer_fun` 函数的反汇编分析
+
+```
+00007FF7999317D0  mov         dword ptr [rsp+10h],edx                       ; 保存参数 b 到栈中
+00007FF7999317D4  mov         dword ptr [rsp+8],ecx                         ; 保存参数 a 到栈中
+00007FF7999317D8  push        rbp                                           ; 保存原栈帧，创建新的栈帧
+00007FF7999317D9  push        rdi                                           ; 保存寄存器 rdi
+00007FF7999317DA  sub         rsp,108h                                      ; 调整栈空间
+00007FF7999317E1  lea         rbp,[rsp+20h]                                 ; 设置栈帧
+00007FF7999317E6  lea         rcx,[__57606C2A_main@cpp (07FF799941000h)]    ; 调用调试工具 __CheckForDebuggerJustMyCode
+00007FF7999317ED  call        __CheckForDebuggerJustMyCode (07FF79993135Ch) ; 检查调试器是否存在
+00007FF7999317F2  mov         edx,dword ptr [b]                             ; 将参数 b 加载到 edx 寄存器
+00007FF7999317F8  mov         ecx,dword ptr [a]                             ; 将参数 a 加载到 ecx 寄存器
+00007FF7999317FE  call        inner_fun (07FF7999311EAh)                    ; 调用 inner_fun 函数
+00007FF799931803  mov         dword ptr [c],eax                             ; 将 inner_fun 返回值保存到局部变量 c
+00007FF799931806  mov         eax,dword ptr [c]                             ; 加载 c 的值到 eax
+00007FF799931809  imul        eax,dword ptr [c]                             ; 将 c 的平方（c * c）存入 eax
+00007FF79993180D  lea         rsp,[rbp+0E8h]                                ; 恢复栈指针
+00007FF799931814  pop         rdi                                           ; 恢复寄存器 rdi
+00007FF799931815  pop         rbp                                           ; 恢复基指针寄存器 rbp
+00007FF799931816  ret                                                       ; 返回到调用位置
+```
+
+#### `main` 函数的反汇编分析
+
+```
+00007FF799931840  push        rbp                                           ; 保存栈帧，设置新的栈帧
+00007FF799931842  push        rdi                                           ; 保存寄存器 rdi
+00007FF799931843  sub         rsp,108h                                      ; 调整栈空间
+00007FF79993184A  lea         rbp,[rsp+20h]                                 ; 设置栈帧
+00007FF79993184F  lea         rcx,[__57606C2A_main@cpp (07FF799941000h)]    ; 调用调试工具 __CheckForDebuggerJustMyCode
+00007FF799931856  call        __CheckForDebuggerJustMyCode (07FF79993135Ch) ; 检查调试器是否存在
+00007FF79993185B  mov         edx,2                                         ; 将 2 传递给参数 b
+00007FF799931860  mov         ecx,1                                         ; 将 1 传递给参数 a
+00007FF799931865  call        outer_fun (07FF79993111Dh)                    ; 调用 outer_fun 函数
+00007FF79993186A  mov         dword ptr [n],eax                             ; 将 outer_fun 返回值存储在变量 n 中
+00007FF79993186D  xor         eax,eax                                       ; 返回 0 (将 eax 清零)
+00007FF79993186F  lea         rsp,[rbp+0E8h]                                ; 恢复栈指针
+00007FF799931876  pop         rdi                                           ; 恢复寄存器 rdi
+00007FF799931877  pop         rbp                                           ; 恢复基指针寄存器 rbp
+00007FF799931878  ret                                                       ; 返回到调用位置
+```
+
+### 总结
+
+#### 栈帧管理
+
+每个函数调用时，操作系统会为该函数分配一块栈空间，这块空间称为栈帧。栈帧主要用于存储以下内容：
+
+* **局部变量**：每个函数的局部变量会分配一定的栈空间。
+* **保存的寄存器**：当函数调用时，可能会使用一些寄存器（如 `rbp`、`rsp`、`rax`、`rcx` 等），这些寄存器的值需要在函数返回时恢复。
+* **返回地址**：每次函数调用时，调用指令的下一条指令地址会被压入栈中，以便函数执行完毕后能够正确返回。
+
+栈帧的创建与销毁：
+
+* **创建栈帧**：每次函数被调用时，会通过 `sub rsp, size` 指令来为局部变量分配栈空间，同时保存寄存器的当前值（如 `rbp`、`rbx` 等）。然后，`lea rbp, [rsp+offset]` 将 `rbp` 寄存器指向新的栈帧基准位置。
+* **销毁栈帧**：函数返回时，会通过 `pop` 恢复寄存器的值，`add rsp, size` 恢复栈指针的位置，从而销毁栈帧。
+
+在 `inner_fun` 和 `outer_fun` 中，栈空间的分配方式比较相似，都是通过 `sub rsp, size` 分配栈空间，设置基指针并在函数执行完毕后销毁栈帧。
+
+#### 栈调用顺序
+
+栈调用顺序是由函数的调用关系和每个函数的栈帧管理决定的。在此程序中，调用顺序如下：
+
+* `main` 调用 `outer_fun`：在 `main` 函数中，栈空间分配后，参数 `1` 和 `2` 被传递给 `outer_fun`，然后执行 `call outer_fun` 指令。栈帧为 `outer_fun` 函数分配空间，栈指针（`rsp`）调整，并开始执行 `outer_fun`。
+* `outer_fun` 调用 `inner_fun`：在 `outer_fun` 中，栈帧已经为 `a` 和 `b` 的参数分配好空间，然后通过 `call inner_fun` 进入 `inner_fun` 函数。`inner_fun` 计算 `a + b` 后返回，返回值存入局部变量 `c`，并且 `outer_fun` 会继续执行剩余的代码来返回 `c * c`。
+* 函数返回：
+  * `inner_fun` 返回：当 `inner_fun` 执行完毕后，栈帧被销毁，`eax` 中的返回值（`a + b`）被传递回 `outer_fun`，栈指针恢复到调用前的状态。
+  * `outer_fun` 返回：同样地，`outer_fun` 在执行完返回 `c * c` 后，栈帧被销毁，栈指针恢复，`main` 函数继续执行。
+  * `main` 返回：最后，`main` 执行完毕后，通过 `ret` 指令返回，栈帧被销毁，控制权回到操作系统或调用者。
+
+每个函数调用时都会压入当前的返回地址，返回时会弹出这些地址，从而保证函数调用的正确顺序。
+
+#### 栈指针与基指针的管理
+
+* **`rsp`（栈指针）**：`rsp` 指向栈顶（即最新的栈元素）。每次压栈（如 `push` 操作）时，`rsp` 会减少；每次弹栈（如 `pop` 操作）时，`rsp` 会增加。
+* **`rbp`（基指针）**：`rbp` 用于指向当前栈帧的基准位置，通常用来管理局部变量和保存的寄存器。在函数调用时，`rbp` 会被设置为栈帧的起始位置，确保栈空间的结构不被破坏。
