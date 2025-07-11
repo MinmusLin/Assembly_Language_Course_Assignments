@@ -45,7 +45,7 @@ MASM 汇编工具
 * [Exercise 3 String Operations](Exercise_3_String_Operations)
 课程练习 3 字符串操作
 
-* [Exercise 3 Screen Display](Exercise_4_Screen_Display)
+* [Exercise 4 Screen Display](Exercise_4_Screen_Display)
 课程练习 4 屏幕显示
 
 * [Project Space Invaders](Project_Space_Invaders)
